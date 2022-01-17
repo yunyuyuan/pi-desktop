@@ -1,0 +1,51 @@
+{
+  "name": "pi-desktop",
+  "version": "0.0.0",
+  "author": "yunyuyuan",
+  "main": "electron/electron.js",
+  "scripts": {
+    "dev": "vite",
+    "build": "vue-tsc --noEmit && vite build",
+    "serve": "vite preview",
+    "electron": "wait-on tcp:3000 && cross-env IS_DEV=true electron .",
+    "electron:pack": "electron-builder --dir",
+    "electron:dev": "concurrently -k \"cross-env BROWSER=none yarn dev\" \"yarn electron\"",
+    "electron:builder": "electron-builder",
+    "build:for:electron": "vue-tsc --noEmit && cross-env ELECTRON=true vite build",
+    "app:build": "yarn build:for:electron && yarn electron:builder"
+  },
+  "dependencies": {
+    "vue": "^3.2.25"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^2.0.0",
+    "concurrently": "^7.0.0",
+    "cross-env": "^7.0.3",
+    "electron": "^16.0.7",
+    "electron-builder": "^22.14.5",
+    "typescript": "^4.4.4",
+    "vite": "^2.7.2",
+    "vue-tsc": "^0.29.8",
+    "wait-on": "^6.0.0"
+  },
+  "build": {
+    "appId": "cn.halberd.pi-desktop",
+    "productName": "pi-desktop",
+    "copyright": "Copyright © 2019 yunyuyuan",
+    "mac": {
+      "category": "public.app-category.utilities"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true
+    },
+    "files": [
+      "dist/**/*",
+      "electron/**/*"
+    ],
+    "directories": {
+      "buildResources": "assets",
+      "output": "dist_electron"
+    }
+  }
+}
