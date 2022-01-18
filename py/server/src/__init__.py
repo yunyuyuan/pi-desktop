@@ -1,7 +1,9 @@
 from flask import Flask
+from flask_cors import CORS
 from json import load
 
 app = Flask(__name__)
+CORS(app)
 app.debug = True
 app.config['SECRET_KEY'] = '15ASDF3q$R#QHae574#RFQjw543qaGQ%#$HWB#'
 
