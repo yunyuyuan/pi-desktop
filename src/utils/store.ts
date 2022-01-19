@@ -6,6 +6,6 @@ export const socketConnected = ref<boolean>(false);
 export const piData = reactive<PiData>({
   cpu_temp: 0,
   cpu_usage: 0,
-  ram_usage: 0,
-  wifi_status: '',
+  ram_usage: [1, 1, 1],
+  wifi_status: ['', '', '', 50],
 });
