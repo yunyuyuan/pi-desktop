@@ -39,7 +39,7 @@ export default defineComponent({
   data() {
     return {
       circleSize: 16,
-      barSize: 150,
+      barSize: 100,
       strokeWidth: 3,
     }
   },

@@ -1,12 +1,10 @@
-html {
-  width: 100%;
-  height: 100%;
-  background: #fcfcfc;
-  //background: linear-gradient(135deg, #0a71ab, #85D8CE);
-}
-body {
-  width: 100%;
-  min-height: 100%;
+#app {
+  width: 480px;
+  max-width: 480px;
+  height: 320px;
+  max-height: 320px;
+  overflow: hidden;
+  background: #ffe7e7;
 }
 *{
   padding: 0;

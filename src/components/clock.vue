@@ -102,7 +102,7 @@ $flipColour: #343434;
 $flipColourDark: darken($flipColour, 65%);
 $textColour: #fafafa;
 $textColourDark: darken($textColour, 65%);
-$size: 50px;
+$size: 30px;
 $radius: $size / 4;
 
 .clock {
