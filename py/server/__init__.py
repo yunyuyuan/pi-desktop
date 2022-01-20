@@ -1,6 +1,7 @@
 from flask import Flask
 from flask_cors import CORS
-from json import load
+
+from utils import config
 
 app = Flask(__name__)
 CORS(app)
@@ -11,6 +12,4 @@ app.config['SECRET_KEY'] = '15ASDF3q$R#QHae574#RFQjw543qaGQ%#$HWB#'
 def start():
     from . import http_
     from . import socket_
-    with open('../config.json') as fp:
-        json = load(fp)
-        app.run(port=json['port'])
+    app.run(port=config['port'])

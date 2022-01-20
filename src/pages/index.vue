@@ -1,18 +1,22 @@
 <template>
   <div class="main-page">
-    <div class="top flex">
+    <div class="top">
       <div class="time">
+        <div class="date flex">
+          <span>{{ timedate }}</span>
+          <span>{{ week }}</span>
+        </div>
         <clock/>
       </div>
       <div class="info flexc">
         <div class="progressbar flex">
-          <progressbar :text="'CPU'" :percentage="piData.cpu_usage"/>
+          <progressbar :text="'CPU'" :percentage="cpuUsage"/>
           <progressbar :text="'RAM'" :percentage="ramUsage"/>  
         </div>
         <div class="txt flex">
           <div>
             <icon-svg name="temperature"/>
-            <span>{{ cpuTemp }}°</span>
+            <span>{{ cpuTemp }}°C</span>
           </div>
           <div>
             <svg viewBox="0 0 1122 1024" xmlns="http://www.w3.org/2000/svg" >
@@ -26,45 +30,80 @@
         </div>
       </div>
     </div>
+    <div class="bottom">
+      <div class="now">
+        <weather :weather="weatherData.result?.realtime.skycon"/>
+      </div>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
-import {defineComponent} from "vue";
+import {defineComponent, watch} from "vue";
 import {Client} from "../utils/socket";
-import {piData} from "../utils/store";
+import {piData, timeInterval, weatherData} from "../utils/store";
 import Clock from "../components/clock.vue";
 import Progressbar from "../components/progressbar.vue";
 import IconSvg from "../assets/svg/IconSvg.vue";
+import dayjs, { Dayjs } from "dayjs";
+import Weather from "../components/weather.vue";
 
 export default defineComponent({
   name: "index",
-  components: {IconSvg, Progressbar, Clock},
+  components: {Weather, IconSvg, Progressbar, Clock},
   data() {
     return {
       client: new Client(),
-      piData
+      piData,
+      weatherData,
+      timeNow: dayjs() as Dayjs,
     }
   },
   computed: {
+    timedate(): string {
+      return this.timeNow.format('YYYY-MM-DD');
+    },
+    week(): string {
+      return this.timeNow.format('dddd');
+    },
     cpuTemp(): number {
       return parseFloat((this.piData.cpu_temp).toFixed(1));
     },
+    cpuUsage(): number {
+      return parseFloat(this.piData.cpu_usage);
+    },
     ramUsage(): number {
-      return parseFloat((this.piData.ram_usage[1] * 100 / this.piData.ram_usage[0]).toFixed(1));
+      return parseFloat((parseInt(this.piData.ram_usage[1]) * 100 / parseInt(this.piData.ram_usage[0])).toFixed(1));
     }
   },
   mounted() {
-    setInterval(() => {
+    watch(timeInterval, () => {
       this.client?.getData();
-    }, 1000);
-  }
+      this.timeNow = dayjs();
+    });
+    setInterval(() => {
+      this.client?.getWeather();
+    }, 600000)
+  },
 })
 </script>
 
 <style lang="scss" scoped>
 .main-page {
   .top {
+    display: flex;
+    margin: 6px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid #bebebe;
+    .time {
+      .date {
+        span{
+          font-size: 14px;
+          font-weight: bold;
+        }
+        justify-content: space-around;
+      }
+    }
     .info {
       flex-grow: 1;
       align-items: stretch;
@@ -86,6 +125,7 @@ export default defineComponent({
           margin-left: 10px;
           font-size: 12px;
           word-break: break-all;
+          font-weight: bold;
         }
       }
     }

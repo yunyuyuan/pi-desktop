@@ -45,13 +45,14 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import {defineComponent, watch} from "vue";
+import { timeInterval } from "../utils/store";
 
 export default defineComponent({
   name: "clock",
   mounted() {
     this.setTime(false);
-    setInterval(() => {
+    watch(timeInterval, () => {
       this.setTime(true);
     })
   },

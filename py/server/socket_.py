@@ -1,6 +1,7 @@
 from flask_socketio import SocketIO, emit
 from . import app
 from utils.hardware import get_cpu_temp, get_cpu_usage, get_wifi_status, get_ram_usage
+from utils.weather import get_weather
 
 socket_io = SocketIO(app, cors_allowed_origins='*')
 socket_io.background_started = False
@@ -28,3 +29,8 @@ def get_data():
         'ram_usage': ram_usage,
         'wifi_status': wifi_status,
     })
+
+
+@socket_io.on('get_weather')
+def get_weather():
+    emit('weather_data', get_weather())

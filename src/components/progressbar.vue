@@ -66,6 +66,7 @@ export default defineComponent({
     justify-content: center;
     span {
       color: white;
+      font-weight: bold;
     }
     .title {
       margin-bottom: 6px;
