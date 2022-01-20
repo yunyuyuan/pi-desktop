@@ -86,10 +86,20 @@ export type Weather = {
       probability: number[],
       description: string
     },
-    hourly: Array<{
-      datetime: string,
-      value: number
-    }>,
+    hourly: {
+      skycon: Array<{
+        datetime: string,
+        value: string
+      }>,
+      precipitation: Array<{
+        datetime: string,
+        value: number
+      }>,
+      temperature: Array<{
+        datetime: string,
+        value: number
+      }>,
+    },
     daily: {
       status: string,
       astro: Array<{

@@ -6,12 +6,13 @@ import config from '../../config.json';
 export class Client {
   private readonly socket: Socket;
 
-  constructor() {
+  constructor(cb: Function) {
     this.socket = io(`http://${config.host}:${config.port}`, {
       reconnection: true
     });
     this.socket.on('connect', () => {
       socketConnected.value = this.socket.connected;
+      cb();
     });
     this.socket.on('connect_error', (e: any) => {
     });

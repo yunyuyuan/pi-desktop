@@ -1,10 +1,15 @@
+@import "huawen";
+
 #app {
   width: 480px;
   max-width: 480px;
   height: 320px;
   max-height: 320px;
   overflow: hidden;
-  background: #fff6f4;
+  border: 1px solid #d5d5d5;
+  box-sizing: border-box;
+  border-radius: 12px;
+  font-family: 'huawen';
 }
 *{
   padding: 0;

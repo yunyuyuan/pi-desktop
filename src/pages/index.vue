@@ -1,5 +1,5 @@
 <template>
-  <div class="main-page">
+  <div class="main-page flexc">
     <div class="top">
       <div class="time">
         <div class="date flex">
@@ -30,9 +30,44 @@
         </div>
       </div>
     </div>
-    <div class="bottom">
-      <div class="now">
-        <weather :weather="weatherData.result?.realtime.skycon"/>
+    <div class="bottom flex">
+      <div class="weather flex">
+        <div class="main flexc">
+          <div class="svg flex">
+            <weather :weather="weatherData.result?.realtime.skycon"/>
+            <b>{{ weatherData.result?.realtime.temperature }}°C</b>
+          </div>
+          <p><span>湿度:</span><b>{{ weatherData.result?.realtime.humidity * 100 }}<small>%</small></b></p>
+          <p><span>降水:</span><b>{{ weatherData.result?.realtime.precipitation.local.intensity }}</b></p>
+          <p><span>风速:</span><b>{{ weatherData.result?.realtime.wind.speed }}<small>m/s</small></b></p>
+          <p><span>PM2.5:</span><b>{{ weatherData.result?.realtime.air_quality.pm25 }}<small>μg/m3</small></b></p>
+        </div>
+        <div class="future">
+          <div class="one">
+            <time>一小时</time>
+            <weather :weather="weatherData.result?.hourly.skycon[0].value"/>
+            <span class="temp">{{ weatherData.result?.hourly.temperature[0].value }}<small>°C</small></span>
+            <span class="rain">雨：{{ weatherData.result?.hourly.precipitation[0].value }}<small>mm/h</small></span>
+          </div>
+          <div class="two">
+            <time>两小时</time>
+            <weather :weather="weatherData.result?.hourly.skycon[1].value"/>
+            <span class="temp">{{ weatherData.result?.hourly.temperature[1].value }}<small>°C</small></span>
+            <span class="rain">雨：{{ weatherData.result?.hourly.precipitation[1].value }}<small>mm/h</small></span>
+          </div>
+          <div class="three">
+            <time>明天</time>
+            <weather :weather="weatherData.result?.daily.skycon[0].value"/>
+            <span class="temp">{{ weatherData.result?.hourly.temperature[0].value }}<small>°C</small></span>
+            <span class="rain">雨：{{ weatherData.result?.hourly.precipitation[0].value }}<small>mm/h</small></span>
+          </div>
+          <div class="four">
+            <time>后天</time>
+            <weather :weather="weatherData.result?.daily.skycon[1].value"/>
+            <span class="temp">{{ weatherData.result?.hourly.temperature[1].value }}<small>°C</small></span>
+            <span class="rain">雨：{{ weatherData.result?.hourly.precipitation[1].value }}<small>mm/h</small></span>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -53,7 +88,7 @@ export default defineComponent({
   components: {Weather, IconSvg, Progressbar, Clock},
   data() {
     return {
-      client: new Client(),
+      client: null as null | Client,
       piData,
       weatherData,
       timeNow: dayjs() as Dayjs,
@@ -77,22 +112,27 @@ export default defineComponent({
     }
   },
   mounted() {
-    watch(timeInterval, () => {
-      this.client?.getData();
-      this.timeNow = dayjs();
+    this.client = new Client(() => {
+      watch(timeInterval, () => {
+        this.client!.getData();
+        this.timeNow = dayjs();
+      });
+      setInterval(() => {
+        this.client!.getWeather();
+      }, 600000);
+      this.client!.getWeather();
     });
-    setInterval(() => {
-      this.client?.getWeather();
-    }, 600000)
   },
 })
 </script>
 
 <style lang="scss" scoped>
 .main-page {
+  width: 100%;
+  height: 100%;
   .top {
     display: flex;
-    margin: 6px;
+    margin-top: 6px;
     padding-bottom: 6px;
     border-bottom: 1px solid #bebebe;
     .time {
@@ -126,6 +166,92 @@ export default defineComponent({
           font-size: 12px;
           word-break: break-all;
           font-weight: bold;
+        }
+      }
+    }
+  }
+  .bottom {
+    align-items: stretch;
+    flex-grow: 1;
+    width: 100%;
+    .weather {
+      width: 60%;
+      background: linear-gradient(127deg, #e4d0ff, #ffdcc3);
+      border-radius: 12px;
+      margin: 4px;
+      align-items: stretch;
+      .main{
+        width: 130px;
+        align-items: stretch;
+        .svg{
+          ::v-deep(svg){
+            width: 80px;
+            height: 80px;
+          }
+          b{
+            font-size: 22px;
+          }
+        }
+        p{
+          display: flex;
+          align-items: center;
+          margin: auto 0;
+          transform: translateY(-8px);
+          color: #1e1e1e;
+          span{
+            width: 45px;
+            font-size: 13px;
+            margin-right: 8px;
+            text-align: right;
+          }
+          b{
+            font-size: 15px;
+          }
+          small{
+            font-size: 11px;
+            margin-left: 3px;
+            color: #363636;
+          }
+        }
+      }
+      .future {
+        display: flex;
+        flex-wrap: wrap;
+        flex-grow: 1;
+        >div {
+          width: 50%;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          box-sizing: border-box;
+          time {
+            font-size: 12px;
+            font-weight: bold;
+          }
+          ::v-deep(svg) {
+            width: 36px;
+            height: 36px;
+          }
+          span {
+            font-size: 10px;
+            color: #1e1e1e;
+            small {
+              font-size: 0.8em;
+            }
+          }
+          border-color: #fff;
+          border-style:  solid;
+          border-width: 0;
+          &.one{
+            border-right-width: 1px;
+            border-bottom-width: 1px;
+          }
+          &.two {
+            border-bottom-width: 1px;
+          }
+          &.three {
+            border-right-width: 1px;
+          }
         }
       }
     }

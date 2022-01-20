@@ -32,5 +32,5 @@ def get_data():
 
 
 @socket_io.on('get_weather')
-def get_weather():
+def _get_weather():
     emit('weather_data', get_weather())

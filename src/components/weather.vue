@@ -518,9 +518,9 @@ $svgSize: 70px;
 $animationStep: 2;
 $increase: math.$pi / 100;
 
-$backgroundColor: skyblue;
+$backgroundColor: #d6fffd;
 $fontColor: white;
-$strokeColor: white;
+$strokeColor: #000000;
 $fillColor: #aedef4;
 
 /* Applies a stroke to the icons. Can use percentage for responsive */
