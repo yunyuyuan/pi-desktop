@@ -1,12 +1,13 @@
 <template>
   <div class="main-page flexc">
     <div class="top">
-      <div class="time">
+      <div class="time flexc">
         <div class="date flex">
           <span>{{ timedate }}</span>
           <span>{{ week }}</span>
         </div>
         <clock/>
+        <span class="tips">{{ weatherData.result?.forecast_keypoint }}</span>
       </div>
       <div class="info flexc">
         <div class="progressbar flex">
@@ -69,6 +70,17 @@
           </div>
         </div>
       </div>
+      <div class="todo flexc">
+        <div v-for="todo in todoData">
+          <p><span></span>{{ todo }}</p>
+        </div>
+        <div v-for="todo in todoData">
+          <p><span></span>{{ todo }}</p>
+        </div>
+        <div v-for="todo in todoData">
+          <p><span></span>{{ todo }}</p>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -76,7 +88,7 @@
 <script lang="ts">
 import {defineComponent, watch} from "vue";
 import {Client} from "../utils/socket";
-import {piData, timeInterval, weatherData} from "../utils/store";
+import {piData, timeInterval, weatherData, todoData} from "../utils/store";
 import Clock from "../components/clock.vue";
 import Progressbar from "../components/progressbar.vue";
 import IconSvg from "../assets/svg/IconSvg.vue";
@@ -91,6 +103,7 @@ export default defineComponent({
       client: null as null | Client,
       piData,
       weatherData,
+      todoData,
       timeNow: dayjs() as Dayjs,
     }
   },
@@ -102,7 +115,7 @@ export default defineComponent({
       return this.timeNow.format('dddd');
     },
     cpuTemp(): number {
-      return parseFloat((this.piData.cpu_temp).toFixed(1));
+      return parseFloat(this.piData.cpu_temp.toFixed(1));
     },
     cpuUsage(): number {
       return parseFloat(this.piData.cpu_usage);
@@ -120,9 +133,18 @@ export default defineComponent({
       setInterval(() => {
         this.client!.getWeather();
       }, 600000);
+      setInterval(() => {
+        this.client!.getTodo();
+      }, 60000);
       this.client!.getWeather();
+      this.client!.getTodo();
     });
   },
+  methods: {
+    toFixed(v: number): number {
+      return parseFloat(v.toFixed(1));
+    }
+  }
 })
 </script>
 
@@ -136,6 +158,7 @@ export default defineComponent({
     padding-bottom: 6px;
     border-bottom: 1px solid #bebebe;
     .time {
+      align-items: stretch;
       .date {
         span{
           font-size: 14px;
@@ -169,17 +192,24 @@ export default defineComponent({
         }
       }
     }
+    .tips {
+      font-size: 13px;
+      margin-top: auto;
+      text-align: center;
+    }
   }
   .bottom {
     align-items: stretch;
     flex-grow: 1;
     width: 100%;
+    height: 0;
     .weather {
       width: 60%;
       background: linear-gradient(127deg, #e4d0ff, #ffdcc3);
       border-radius: 12px;
       margin: 4px;
       align-items: stretch;
+      flex-shrink: 0;
       .main{
         width: 130px;
         align-items: stretch;
@@ -252,6 +282,33 @@ export default defineComponent({
           &.three {
             border-right-width: 1px;
           }
+        }
+      }
+    }
+    .todo {
+      flex-grow: 1;
+      overflow: auto;
+      div{
+        width: 100%;
+        &:first-of-type {
+          padding-top: 8px;
+        }
+        &:not(:last-of-type) {
+          margin-bottom: 8px;
+        }
+        p {
+          span {
+            display: inline-block;
+            width: 6px;
+            height: 6px;
+            background: #4e4e4e;
+            border-radius: 50%;
+            margin-right: 4px;
+            position: relative;
+            top: -2px;
+          }
+          font-size: 14px;
+          margin: 0 4px;
         }
       }
     }

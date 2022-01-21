@@ -1,6 +1,6 @@
 import {io} from 'socket.io-client';
 import {Socket} from "socket.io-client/build/socket";
-import {piData, socketConnected, weatherData} from "./store";
+import {piData, socketConnected, weatherData, todoData} from "./store";
 import config from '../../config.json';
 
 export class Client {
@@ -21,8 +21,9 @@ export class Client {
     this.socket.on('disconnect', (e: any) => {
       socketConnected.value = this.socket.connected;
     });
-    this.socket.on('return_data', Client.acceptData);
-    this.socket.on('weather_data', Client.weatherData);
+    this.socket.on('return_data', (data: Record<string, any>) => Object.assign(piData, data));
+    this.socket.on('weather_data', (data: Record<string, any>) => Object.assign(weatherData, data));
+    this.socket.on('todo_data', (data: Record<string, any>) => Object.assign(todoData, data));
   }
 
   public get connected(): boolean {
@@ -42,12 +43,8 @@ export class Client {
   public getWeather(): void {
     this.socket.emit('get_weather');
   }
-  
-  private static acceptData(data: Record<string, any>): void {
-    Object.assign(piData, data);
-  }
-  
-  private static weatherData(data: Record<string, any>): void {
-    Object.assign(weatherData, data);
+
+  public getTodo(): void {
+    this.socket.emit('get_todo');
   }
 }

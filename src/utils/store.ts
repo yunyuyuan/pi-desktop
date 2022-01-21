@@ -13,6 +13,8 @@ export const piData = reactive<PiData>({
 // @ts-ignore
 export const weatherData = reactive<Weather>({});
 
+export const todoData = reactive<string[]>([]);
+
 export const timeInterval = ref<number>(1);
 
 setInterval(() => {
