@@ -229,3 +229,7 @@ export type Weather = {
     forecast_keypoint: string
   }
 }
+
+export function toFixed(v: number): number {
+  return parseFloat(v.toFixed(1));
+}

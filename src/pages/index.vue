@@ -38,7 +38,7 @@
             <weather :weather="weatherData.result?.realtime.skycon"/>
             <b>{{ weatherData.result?.realtime.temperature }}°C</b>
           </div>
-          <p><span>湿度:</span><b>{{ weatherData.result?.realtime.humidity * 100 }}<small>%</small></b></p>
+          <p><span>湿度:</span><b>{{ toFixed(weatherData.result?.realtime.humidity * 100) }}<small>%</small></b></p>
           <p><span>降水:</span><b>{{ weatherData.result?.realtime.precipitation.local.intensity }}</b></p>
           <p><span>风速:</span><b>{{ weatherData.result?.realtime.wind.speed }}<small>m/s</small></b></p>
           <p><span>PM2.5:</span><b>{{ weatherData.result?.realtime.air_quality.pm25 }}<small>μg/m3</small></b></p>
@@ -94,6 +94,7 @@ import Progressbar from "../components/progressbar.vue";
 import IconSvg from "../assets/svg/IconSvg.vue";
 import dayjs, { Dayjs } from "dayjs";
 import Weather from "../components/weather.vue";
+import {toFixed} from "../utils/type";
 
 export default defineComponent({
   name: "index",
@@ -115,13 +116,13 @@ export default defineComponent({
       return this.timeNow.format('dddd');
     },
     cpuTemp(): number {
-      return parseFloat(this.piData.cpu_temp.toFixed(1));
+      return toFixed(this.piData.cpu_temp);
     },
     cpuUsage(): number {
       return parseFloat(this.piData.cpu_usage);
     },
     ramUsage(): number {
-      return parseFloat((parseInt(this.piData.ram_usage[1]) * 100 / parseInt(this.piData.ram_usage[0])).toFixed(1));
+      return toFixed(parseInt(this.piData.ram_usage[1]) * 100 / parseInt(this.piData.ram_usage[0]));
     }
   },
   mounted() {
@@ -141,9 +142,7 @@ export default defineComponent({
     });
   },
   methods: {
-    toFixed(v: number): number {
-      return parseFloat(v.toFixed(1));
-    }
+    toFixed: toFixed
   }
 })
 </script>
