@@ -23,7 +23,6 @@ export class Client {
     });
     this.socket.on('return_data', (data: Record<string, any>) => Object.assign(piData, data));
     this.socket.on('weather_data', (data: Record<string, any>) => Object.assign(weatherData, data));
-    this.socket.on('todo_data', (data: Record<string, any>) => Object.assign(todoData, data));
   }
 
   public get connected(): boolean {
@@ -42,9 +41,5 @@ export class Client {
 
   public getWeather(): void {
     this.socket.emit('get_weather');
-  }
-
-  public getTodo(): void {
-    this.socket.emit('get_todo');
   }
 }

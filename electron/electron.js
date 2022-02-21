@@ -25,7 +25,7 @@ function createWindow() {
     mainWindow.webContents.openDevTools();
   }
   // Backend
-  const backend = require('child_process').spawn('python', ['./py/main.py'])
+  const backend = require('child_process').spawn('../py/venv/bin/python', ['../py/main.py'])
   mainWindow.on('closed', function() {
     backend.kill('SIGINT');
   });

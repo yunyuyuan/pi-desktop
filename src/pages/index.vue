@@ -47,40 +47,30 @@
           <div class="one">
             <time>一小时</time>
             <weather :weather="weatherData.result?.hourly.skycon[0].value"/>
-            <span class="temp">{{ weatherData.result?.hourly.temperature[0].value }}<small>°C</small></span>
-            <span class="rain">雨：{{ weatherData.result?.hourly.precipitation[0].value }}<small>mm/h</small></span>
+            <span class="temp"><b>{{ weatherData.result?.hourly.temperature[0].value }}</b><small>°C</small></span>
+            <span class="rain">雨：<b>{{ weatherData.result?.hourly.precipitation[0].value }}</b><small>mm/h</small></span>
           </div>
           <div class="two">
             <time>两小时</time>
             <weather :weather="weatherData.result?.hourly.skycon[1].value"/>
-            <span class="temp">{{ weatherData.result?.hourly.temperature[1].value }}<small>°C</small></span>
-            <span class="rain">雨：{{ weatherData.result?.hourly.precipitation[1].value }}<small>mm/h</small></span>
+            <span class="temp"><b>{{ weatherData.result?.hourly.temperature[1].value }}</b><small>°C</small></span>
+            <span class="rain">雨：<b>{{ weatherData.result?.hourly.precipitation[1].value }}</b><small>mm/h</small></span>
           </div>
           <div class="three">
             <time>明天</time>
             <weather :weather="weatherData.result?.daily.skycon[0].value"/>
-            <span class="temp">{{ weatherData.result?.hourly.temperature[0].value }}<small>°C</small></span>
-            <span class="rain">雨：{{ weatherData.result?.hourly.precipitation[0].value }}<small>mm/h</small></span>
+            <span class="temp"><b>{{ weatherData.result?.hourly.temperature[0].value }}</b><small>°C</small></span>
+            <span class="rain">雨：<b>{{ weatherData.result?.hourly.precipitation[0].value }}</b><small>mm/h</small></span>
           </div>
           <div class="four">
             <time>后天</time>
             <weather :weather="weatherData.result?.daily.skycon[1].value"/>
-            <span class="temp">{{ weatherData.result?.hourly.temperature[1].value }}<small>°C</small></span>
-            <span class="rain">雨：{{ weatherData.result?.hourly.precipitation[1].value }}<small>mm/h</small></span>
+            <span class="temp"><b>{{ weatherData.result?.hourly.temperature[1].value }}</b><small>°C</small></span>
+            <span class="rain">雨：<b>{{ weatherData.result?.hourly.precipitation[1].value }}</b><small>mm/h</small></span>
           </div>
         </div>
       </div>
-      <div class="todo flexc">
-        <div v-for="todo in todoData">
-          <p><span></span>{{ todo }}</p>
-        </div>
-        <div v-for="todo in todoData">
-          <p><span></span>{{ todo }}</p>
-        </div>
-        <div v-for="todo in todoData">
-          <p><span></span>{{ todo }}</p>
-        </div>
-      </div>
+      <todo/>
     </div>
   </div>
 </template>
@@ -88,23 +78,23 @@
 <script lang="ts">
 import {defineComponent, watch} from "vue";
 import {Client} from "../utils/socket";
-import {piData, timeInterval, weatherData, todoData} from "../utils/store";
+import {piData, timeInterval, weatherData} from "../utils/store";
 import Clock from "../components/clock.vue";
 import Progressbar from "../components/progressbar.vue";
 import IconSvg from "../assets/svg/IconSvg.vue";
 import dayjs, { Dayjs } from "dayjs";
 import Weather from "../components/weather.vue";
 import {toFixed} from "../utils/type";
+import Todo from "../components/todo.vue";
 
 export default defineComponent({
   name: "index",
-  components: {Weather, IconSvg, Progressbar, Clock},
+  components: {Todo, Weather, IconSvg, Progressbar, Clock},
   data() {
     return {
       client: null as null | Client,
       piData,
       weatherData,
-      todoData,
       timeNow: dayjs() as Dayjs,
     }
   },
@@ -134,11 +124,7 @@ export default defineComponent({
       setInterval(() => {
         this.client!.getWeather();
       }, 600000);
-      setInterval(() => {
-        this.client!.getTodo();
-      }, 60000);
       this.client!.getWeather();
-      this.client!.getTodo();
     });
   },
   methods: {
@@ -262,10 +248,10 @@ export default defineComponent({
             height: 36px;
           }
           span {
-            font-size: 10px;
+            font-size: 15px;
             color: #1e1e1e;
             small {
-              font-size: 0.8em;
+              font-size: 8px;
             }
           }
           border-color: #fff;
@@ -281,33 +267,6 @@ export default defineComponent({
           &.three {
             border-right-width: 1px;
           }
-        }
-      }
-    }
-    .todo {
-      flex-grow: 1;
-      overflow: auto;
-      div{
-        width: 100%;
-        &:first-of-type {
-          padding-top: 8px;
-        }
-        &:not(:last-of-type) {
-          margin-bottom: 8px;
-        }
-        p {
-          span {
-            display: inline-block;
-            width: 6px;
-            height: 6px;
-            background: #4e4e4e;
-            border-radius: 50%;
-            margin-right: 4px;
-            position: relative;
-            top: -2px;
-          }
-          font-size: 14px;
-          margin: 0 4px;
         }
       }
     }
