@@ -9,7 +9,7 @@ app.debug = True
 app.config['SECRET_KEY'] = '15ASDF3q$R#QHae574#RFQjw543qaGQ%#$HWB#'
 
 
-def start():
+def start(host='127.0.0.1'):
     from . import http_
     from . import socket_
-    app.run(port=config['port'])
+    app.run(host=host, port=config['port'])
