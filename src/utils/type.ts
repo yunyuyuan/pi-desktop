@@ -230,6 +230,6 @@ export type Weather = {
   }
 }
 
-export function toFixed(v: number): number {
-  return parseFloat(v.toFixed(1));
+export function toFixed(v: number | string): number {
+  return parseFloat(parseFloat(<string>v).toFixed(1));
 }

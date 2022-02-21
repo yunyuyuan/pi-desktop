@@ -39,34 +39,34 @@
             <b>{{ weatherData.result?.realtime.temperature }}°C</b>
           </div>
           <p><span>湿度:</span><b>{{ toFixed(weatherData.result?.realtime.humidity * 100) }}<small>%</small></b></p>
-          <p><span>降水:</span><b>{{ weatherData.result?.realtime.precipitation.local.intensity }}</b></p>
-          <p><span>风速:</span><b>{{ weatherData.result?.realtime.wind.speed }}<small>m/s</small></b></p>
-          <p><span>PM2.5:</span><b>{{ weatherData.result?.realtime.air_quality.pm25 }}<small>μg/m3</small></b></p>
+          <p><span>降水:</span><b>{{ toFixed(weatherData.result?.realtime.precipitation.local.intensity) }}</b></p>
+          <p><span>风速:</span><b>{{ toFixed(weatherData.result?.realtime.wind.speed) }}<small>m/s</small></b></p>
+          <p><span>PM2.5:</span><b>{{ toFixed(weatherData.result?.realtime.air_quality.pm25) }}<small>μg/m3</small></b></p>
         </div>
         <div class="future">
           <div class="one">
             <time>一小时</time>
             <weather :weather="weatherData.result?.hourly.skycon[0].value"/>
-            <span class="temp"><b>{{ weatherData.result?.hourly.temperature[0].value }}</b><small>°C</small></span>
-            <span class="rain">雨：<b>{{ weatherData.result?.hourly.precipitation[0].value }}</b><small>mm/h</small></span>
+            <span class="temp"><b>{{ toFixed(weatherData.result?.hourly.temperature[0].value) }}</b><small>°C</small></span>
+            <span class="rain">雨：<b>{{ toFixed(weatherData.result?.hourly.precipitation[0].value) }}</b><small>mm/h</small></span>
           </div>
           <div class="two">
             <time>两小时</time>
             <weather :weather="weatherData.result?.hourly.skycon[1].value"/>
-            <span class="temp"><b>{{ weatherData.result?.hourly.temperature[1].value }}</b><small>°C</small></span>
-            <span class="rain">雨：<b>{{ weatherData.result?.hourly.precipitation[1].value }}</b><small>mm/h</small></span>
+            <span class="temp"><b>{{ toFixed(weatherData.result?.hourly.temperature[1].value) }}</b><small>°C</small></span>
+            <span class="rain">雨：<b>{{ toFixed(weatherData.result?.hourly.precipitation[1].value) }}</b><small>mm/h</small></span>
           </div>
           <div class="three">
             <time>明天</time>
             <weather :weather="weatherData.result?.daily.skycon[0].value"/>
-            <span class="temp"><b>{{ weatherData.result?.hourly.temperature[0].value }}</b><small>°C</small></span>
-            <span class="rain">雨：<b>{{ weatherData.result?.hourly.precipitation[0].value }}</b><small>mm/h</small></span>
+            <span class="temp"><b>{{ toFixed(weatherData.result?.hourly.temperature[0].value) }}</b><small>°C</small></span>
+            <span class="rain">雨：<b>{{ toFixed(weatherData.result?.hourly.precipitation[0].value) }}</b><small>mm/h</small></span>
           </div>
           <div class="four">
             <time>后天</time>
             <weather :weather="weatherData.result?.daily.skycon[1].value"/>
-            <span class="temp"><b>{{ weatherData.result?.hourly.temperature[1].value }}</b><small>°C</small></span>
-            <span class="rain">雨：<b>{{ weatherData.result?.hourly.precipitation[1].value }}</b><small>mm/h</small></span>
+            <span class="temp"><b>{{ toFixed(weatherData.result?.hourly.temperature[1].value) }}</b><small>°C</small></span>
+            <span class="rain">雨：<b>{{ toFixed(weatherData.result?.hourly.precipitation[1].value) }}</b><small>mm/h</small></span>
           </div>
         </div>
       </div>
@@ -248,7 +248,7 @@ export default defineComponent({
             height: 36px;
           }
           span {
-            font-size: 15px;
+            font-size: 13px;
             color: #1e1e1e;
             small {
               font-size: 8px;
