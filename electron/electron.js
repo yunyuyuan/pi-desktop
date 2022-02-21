@@ -4,6 +4,8 @@ const { app, BrowserWindow } = require('electron');
 const isDev = process.env.IS_DEV === "true";
 
 function createWindow() {
+  // Backend
+  const backend = require('child_process').spawn(path.join(__dirname, '../py/venv/bin/python'), [path.join(__dirname, '../py/main.py')])
   // Create the browser window.
   const mainWindow = new BrowserWindow({
     fullscreen: true,
@@ -24,8 +26,6 @@ function createWindow() {
   if (isDev) {
     mainWindow.webContents.openDevTools();
   }
-  // Backend
-  const backend = require('child_process').spawn('../py/venv/bin/python', ['../py/main.py'])
   mainWindow.on('closed', function() {
     backend.kill('SIGINT');
   });
