@@ -32,7 +32,7 @@ export default defineComponent({
   methods: {
     async getTodo() {
       const content = await getFileContent('files/todo.json');
-      if (typeof content === 'string' && content.startsWith('[')) {
+      if (typeof content === 'string') {
         this.todo = JSON.parse(this.decrypt(content));
       }
     },
