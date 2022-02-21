@@ -1,4 +1,5 @@
 from json import load
+import pathlib
 
-with open('../config.json') as fp:
+with open(pathlib.Path(__file__).parent.parent.joinpath('config.json').resolve()) as fp:
     config = load(fp)
