@@ -250,6 +250,9 @@ export default defineComponent({
           span {
             font-size: 13px;
             color: #1e1e1e;
+            &.temp {
+              margin-top: -2px;
+            }
             small {
               font-size: 8px;
             }
