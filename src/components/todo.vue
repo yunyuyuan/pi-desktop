@@ -9,6 +9,8 @@
 <script lang="ts">
 import {defineComponent} from "vue";
 import {getFileContent} from "../utils/github";
+import CryptoJS from 'crypto-js';
+import config from '../../config.json'
 
 export default defineComponent({
   name: "todo",
@@ -31,12 +33,19 @@ export default defineComponent({
     async getTodo() {
       const content = await getFileContent('files/todo.json');
       if (typeof content === 'string' && content.startsWith('[')) {
-        this.todo = JSON.parse(content);
+        this.todo = JSON.parse(this.decrypt(content));
       }
     },
     mouseDown(event: PointerEvent) {
       this.$el.scrollTo(0, this.$el.scrollTop + ((event.clientY - this.clientHeight) < 91 ? -28 : 28));
     },
+    decrypt(text: string): string {
+      try {
+        return CryptoJS.AES.decrypt(text, config["todo-pwd"]).toString(CryptoJS.enc.Utf8) || text;
+      } catch (e) {
+        return '[]'
+      }
+    }
   }
 })
 </script>

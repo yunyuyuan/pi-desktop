@@ -20,9 +20,11 @@
     "vue": "^3.2.25"
   },
   "devDependencies": {
+    "@types/crypto-js": "^4.1.1",
     "@vitejs/plugin-vue": "^2.0.0",
     "concurrently": "^7.0.0",
     "cross-env": "^7.0.3",
+    "crypto-js": "^4.1.1",
     "electron": "^16.0.7",
     "electron-builder": "^22.14.5",
     "rollup-pluginutils": "^2.8.2",
