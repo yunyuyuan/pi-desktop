@@ -233,3 +233,10 @@ export type Weather = {
 export function toFixed(v: number | string): number {
   return parseFloat(parseFloat(<string>v).toFixed(1));
 }
+
+export function toTwo(n: number): number[] {
+  if (n < 10) {
+    return [0, n]
+  }
+  return [Math.floor(n/10), n%10]
+}

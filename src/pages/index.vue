@@ -6,7 +6,7 @@
           <span>{{ timedate }}</span>
           <span>{{ week }}</span>
         </div>
-        <clock/>
+        <clock2/>
         <span class="tips">{{ weatherData.result?.forecast_keypoint }}</span>
       </div>
       <div class="info flexc">
@@ -39,7 +39,7 @@
             <b>{{ weatherData.result?.realtime.temperature }}°C</b>
           </div>
           <p><span>湿度:</span><b>{{ toFixed(weatherData.result?.realtime.humidity * 100) }}<small>%</small></b></p>
-          <p><span>降水:</span><b>{{ toFixed(weatherData.result?.realtime.precipitation.local.intensity) }}</b></p>
+          <p><span>降雨:</span><b>{{ toFixed(weatherData.result?.realtime.precipitation.local.intensity) }}<small>mm/h</small></b></p>
           <p><span>风速:</span><b>{{ toFixed(weatherData.result?.realtime.wind.speed) }}<small>m/s</small></b></p>
           <p><span>PM2.5:</span><b>{{ toFixed(weatherData.result?.realtime.air_quality.pm25) }}<small>μg/m3</small></b></p>
         </div>
@@ -86,10 +86,11 @@ import dayjs, { Dayjs } from "dayjs";
 import Weather from "../components/weather.vue";
 import {toFixed} from "../utils/type";
 import Todo from "../components/todo.vue";
+import Clock2 from "../components/clock2.vue";
 
 export default defineComponent({
   name: "index",
-  components: {Todo, Weather, IconSvg, Progressbar, Clock},
+  components: {Clock2, Todo, Weather, IconSvg, Progressbar, Clock},
   data() {
     return {
       client: null as null | Client,
@@ -100,7 +101,7 @@ export default defineComponent({
   },
   computed: {
     timedate(): string {
-      return this.timeNow.format('YYYY-MM-DD');
+      return this.timeNow.format('YYYY - MM - DD');
     },
     week(): string {
       return this.timeNow.format('dddd');
