@@ -2,7 +2,6 @@ from flask_socketio import SocketIO, emit
 from . import app
 from utils.hardware import get_cpu_temp, get_cpu_usage, get_wifi_status, get_ram_usage
 from utils.weather import get_weather
-from utils.todo import get_todo
 
 socket_io = SocketIO(app, cors_allowed_origins='*')
 socket_io.background_started = False
