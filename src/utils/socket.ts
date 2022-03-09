@@ -1,6 +1,6 @@
 import {io} from 'socket.io-client';
 import {Socket} from "socket.io-client/build/socket";
-import {piData, socketConnected, weatherData, todoData} from "./store";
+import {piData, socketConnected, weatherData} from "./store";
 import config from '../../config.json';
 
 export class Client {

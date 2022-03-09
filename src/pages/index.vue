@@ -6,7 +6,10 @@
           <span>{{ timedate }}</span>
           <span>{{ week }}</span>
         </div>
-        <clock2/>
+        <div @click="changeClock">
+          <clock2 v-if="clockNow === 2"/>
+          <clock3 v-else-if="clockNow === 3"/>
+        </div>
         <span class="tips">{{ weatherData.result?.forecast_keypoint }}</span>
       </div>
       <div class="info flexc">
@@ -32,7 +35,7 @@
       </div>
     </div>
     <div class="bottom flex">
-      <div class="weather flex">
+      <div class="weather flex" @click="client.getWeather()">
         <div class="main flexc">
           <div class="svg flex">
             <weather :weather="weatherData.result?.realtime.skycon"/>
@@ -87,15 +90,17 @@ import Weather from "../components/weather.vue";
 import {toFixed} from "../utils/type";
 import Todo from "../components/todo.vue";
 import Clock2 from "../components/clock2.vue";
+import Clock3 from "../components/clock3.vue";
 
 export default defineComponent({
   name: "index",
-  components: {Clock2, Todo, Weather, IconSvg, Progressbar, Clock},
+  components: {Clock3, Clock2, Todo, Weather, IconSvg, Progressbar, Clock},
   data() {
     return {
       client: null as null | Client,
       piData,
       weatherData,
+      clockNow: 2,
       timeNow: dayjs() as Dayjs,
     }
   },
@@ -129,7 +134,10 @@ export default defineComponent({
     });
   },
   methods: {
-    toFixed: toFixed
+    toFixed: toFixed,
+    changeClock() {
+      this.clockNow = (this.clockNow === 2 ? 3 : 2);
+    }
   }
 })
 </script>
