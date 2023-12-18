@@ -1,0 +1,33 @@
+@import "huawen";
+@import "robot-momo";
+
+#app {
+  width: 480px;
+  max-width: 480px;
+  height: 320px;
+  max-height: 320px;
+  overflow: hidden;
+  border: 1px solid #d5d5d5;
+  box-sizing: border-box;
+  border-radius: 12px;
+  font-family: 'huawen';
+  user-select: none;
+  cursor: none;
+}
+*{
+  padding: 0;
+  margin: 0;
+}
+.flex{
+  &, &c{
+    display: flex;
+    align-items: center;
+    &c{
+      flex-direction: column;
+    }
+  }
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
